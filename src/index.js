@@ -2,7 +2,10 @@ import './index.css'
 import Canvas from './render/canvas.js'
 
 // Colors
-const white = [255,255,255,255]
+const white = [255, 255, 255, 255]
+const red   = [255,   0,   0, 255]
+const green = [  0, 255,   0, 255]
+const blue  = [  0,   0, 255, 255]
 
 // App
 const canvas = new Canvas({
@@ -22,3 +25,5 @@ const line = (x0, y0, x1, y1, color) => {
 }
 
 line(13, 20, 80, 40, white)
+line(20, 13, 40, 80, red);
+line(90, 50, 23, 30, green);
