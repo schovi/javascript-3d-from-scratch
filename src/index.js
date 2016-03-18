@@ -14,7 +14,7 @@ const canvas = new Canvas({
 
 // Naive rendering of line with few steps
 const line = (x0, y0, x1, y1, color) => {
-  for(let p = 0; p < 1; p += 0.1) {
+  for(let p = 0; p < 1; p += 0.01) {
     const x = x0 * (1 - p) + x1 * p
     const y = y0 * (1 - p) + y1 * p
     canvas.pixel(x, y, color)
