@@ -41,7 +41,7 @@ const bresenhamsLine = (canvas, x0, y0, x1, y1, color) => {
 
   const dx = x1 - x0
   const dy = y1 - y0
-  const dError = Math.abs(dy / dx)
+  const dError = Math.abs(dy) * 2
   let error = 0
   let y = y0
 
@@ -56,9 +56,9 @@ const bresenhamsLine = (canvas, x0, y0, x1, y1, color) => {
 
     error += dError
 
-    if(error > 0.5) {
+    if(error > dx) {
       y += y1 > y0 ? 1 : -1
-      error -= 1
+      error -= dx * 2
     }
   }
 }
