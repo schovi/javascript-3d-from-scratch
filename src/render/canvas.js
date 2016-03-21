@@ -1,39 +1,24 @@
-const getPixelRation = (ctx) => {
-  const dpr = window.devicePixelRatio || 1
-  const bsr = ctx.webkitBackingStorePixelRatio ||
-              ctx.mozBackingStorePixelRatio ||
-              ctx.msBackingStorePixelRatio ||
-              ctx.oBackingStorePixelRatio ||
-              ctx.backingStorePixelRatio || 1
-
-  return dpr / bsr
-}
-
-const applyHiDPICanvas = (canvas, width, height, ratio) => {
-  canvas.width = width * ratio
-  canvas.height = height * ratio
-  canvas.style.width = width + "px"
-  canvas.style.height = height + "px"
-  canvas.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0)
-}
+import renderLine from './line'
+import { getPixelRation, applyHiDPICanvas } from './canvas_hdpi'
 
 export default class Canvas {
   constructor({canvas, width, height, ratio}) {
     this.canvas  = canvas
     this.context = canvas.getContext('2d')
-    this.width   = width
-    this.height  = height
+
+    applyHiDPICanvas(canvas, width, height, ratio || getPixelRation(this.context))
+
+    this.width   = canvas.width
+    this.height  = canvas.height
     this.ratio   = ratio
 
-    applyHiDPICanvas(canvas, width, height, ratio || getPixelRation(context))
-
-    this.preparePixelBuffer()
+    this.setup && this.setup()
   }
 
   // Render pixel with usage 1x1 putImageData
   // Pros: supports subpixel (kind of antialiasing)
   // Cons: is slow
-  preparePixelBuffer() {
+  setup() {
     this.imageData = this.context.createImageData(1,1)
     this.buffer    = this.imageData.data
   }
@@ -47,5 +32,18 @@ export default class Canvas {
     this.buffer[3] = a
 
     this.context.putImageData(this.imageData, x, y)
+  }
+
+  beforeRender() {
+    // Clear canvas before each render
+    this.context.clearRect(0, 0, this.width, this.height)
+  }
+
+  afterRender() {
+
+  }
+
+  renderLine(x0, y0, x1, y1, color) {
+    renderLine(this, x0, y0, x1, y1, color)
   }
 }

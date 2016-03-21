@@ -1,0 +1,5 @@
+export const white = [255, 255, 255, 255]
+export const red   = [255,   0,   0, 255]
+export const green = [  0, 255,   0, 255]
+export const blue  = [  0,   0, 255, 255]
+export const black = [  0,   0,   0, 255]

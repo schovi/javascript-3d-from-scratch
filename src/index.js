@@ -1,12 +1,11 @@
 import './index.css'
 import Canvas from './render/canvas.js'
-import line from './render/line'
+import {white, red, green, blue, black} from './color'
 
-// Colors
-const white = [255, 255, 255, 255]
-const red   = [255,   0,   0, 255]
-const green = [  0, 255,   0, 255]
-const blue  = [  0,   0, 255, 255]
+// 2D
+import Scene from './2d/scene'
+import Vertex from './2d/vertex'
+import Line from './2d/line'
 
 // App
 const canvas = new Canvas({
@@ -16,6 +15,12 @@ const canvas = new Canvas({
   ratio : 1
 })
 
-line(canvas, 13, 20, 80, 40, white)
-line(canvas, 20, 13, 40, 80, red)
-line(canvas, 90, 50, 23, 30, green)
+const scene = new Scene(canvas)
+const line1 = new Line(new Vertex(17, 29), new Vertex(293, 130))
+const line2 = new Line(new Vertex(293, 130), new Vertex(33, 11))
+const line3 = new Line(new Vertex(56, 12), new Vertex(99, 111))
+line1.addToScene(scene)
+line2.addToScene(scene)
+line3.addToScene(scene)
+
+scene.render(white)
