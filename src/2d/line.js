@@ -1,6 +1,6 @@
-import GenericObject from '../shared/generic_object'
+import Generic from './generic'
 
-export default class Line extends GenericObject {
+export default class Line extends Generic {
   constructor(v1, v2) {
     super()
 
@@ -10,5 +10,9 @@ export default class Line extends GenericObject {
 
   render(canvas, color) {
     canvas.renderLine(this.v1.x, this.v1.y, this.v2.x, this.v2.y, color)
+  }
+
+  translate() {
+
   }
 }
