@@ -31,12 +31,12 @@ export default class Scene {
   }
 
   render(color) {
-    this.canvas.beforeRender()
+    this.canvas.beforeRender && this.canvas.beforeRender()
 
     this.objects.forEach((object) => {
       object.render(this.canvas, color)
     })
 
-    this.canvas.afterRender()
+    this.canvas.afterRender && this.canvas.afterRender()
   }
 }

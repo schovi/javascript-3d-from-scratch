@@ -30,7 +30,7 @@ const step = () => {
   scene.render(white)
 
   // polygon.translate(1, 0)
-  circle.translate(1, 2)
+  circle.translate(0.5, 0.33)
 
   polygon.rotate(-1)
   square.rotate(1, new Vertex(200, 200))
