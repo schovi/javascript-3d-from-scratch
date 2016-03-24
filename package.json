@@ -6,6 +6,7 @@
     "build": "NODE_ENV=production rm -rf dist && wbuild"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "6.6.5",
     "babel-preset-es2015": "6.5.0",
     "babel-preset-react": "6.5.0",
     "babel-preset-react-hmre": "1.1.0"

@@ -2,17 +2,23 @@ import renderLine from './line'
 import { getPixelRation, applyHiDPICanvas } from './canvas_hdpi'
 
 export default class Canvas {
-  constructor({canvas, width, height, ratio}) {
+  constructor({canvas, ...dimensions}) {
     this.canvas  = canvas
     this.context = canvas.getContext('2d')
 
-    applyHiDPICanvas(canvas, width, height, ratio || getPixelRation(this.context))
+    this.setDimensions(dimensions)
+
+    this.setup && this.setup()
+  }
+
+  setDimensions({width, height, ratio}) {
+    ratio = ratio || getPixelRation(this.context)
+
+    applyHiDPICanvas(this.canvas, width, height, ratio)
 
     this.width   = canvas.width
     this.height  = canvas.height
     this.ratio   = ratio
-
-    this.setup && this.setup()
   }
 
   renderLine(x0, y0, x1, y1, color) {

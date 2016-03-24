@@ -17,6 +17,14 @@ const canvas = new Canvas({
   ratio : 1
 })
 
+window.addEventListener('resize', () => {
+  canvas.setDimensions({
+    width : window.innerWidth,
+    height: window.innerHeight,
+    ratio : 1
+  })
+})
+
 const scene = new Scene(canvas)
 
 const polygon = new Polygon(new Vertex(17, 73), new Vertex(293, 130), new Vertex(33, 11))
