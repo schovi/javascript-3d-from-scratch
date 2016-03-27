@@ -60,9 +60,9 @@ export default class Polygon extends Generic {
     })
   }
 
-  render(canvas, color) {
+  mesh(color) {
     this.lines.forEach((line) => {
-      line.render(canvas, color)
+      line.render(this.scene, color)
     })
   }
 

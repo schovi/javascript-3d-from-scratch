@@ -1,7 +1,11 @@
+import renderLine from '../render/line'
+
 export default class Scene {
-  constructor(canvas) {
+  constructor(canvas, {dx = 0, dy = 0} = {}) {
     this.canvas  = canvas
     this.objects = []
+    this.dx = dx
+    this.dy = dy
   }
 
   // Add objects to scene
@@ -30,13 +34,17 @@ export default class Scene {
     })
   }
 
-  render(color) {
+  mesh(color) {
     this.canvas.beforeRender && this.canvas.beforeRender()
 
     this.objects.forEach((object) => {
-      object.render(this.canvas, color)
+      object.mesh(color)
     })
 
     this.canvas.afterRender && this.canvas.afterRender()
+  }
+
+  renderLine(x0, y0, x1, y1, color) {
+    renderLine(this.canvas, x0 + this.dx, y0 + this.dy, x1 + this.dx, y1 + this.dy, color)
   }
 }

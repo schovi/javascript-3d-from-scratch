@@ -8,42 +8,54 @@ import Vertex  from './2d/vertex'
 import Circle  from './2d/circle'
 import Square  from './2d/square'
 import Polygon from './2d/polygon'
-
+import * as Matrix from './utils/matrix'
 // App
+const winWidth  = window.innerWidth
+const winHeight = window.innerHeight
+
+// Initialize wrapper around canvas
 const canvas = new Canvas({
   canvas: document.getElementById("canvas"),
-  width : window.innerWidth,
-  height: window.innerHeight,
+  width : winWidth,
+  height: winHeight,
   ratio : 1
 })
 
-window.addEventListener('resize', () => {
-  canvas.setDimensions({
-    width : window.innerWidth,
-    height: window.innerHeight,
-    ratio : 1
-  })
+// Initialize scene
+const scene = new Scene(canvas, {
+  dx: winWidth / 2,
+  dy: winHeight / 2
 })
 
-const scene = new Scene(canvas)
+// Handle window resizing
+window.addEventListener('resize', () => {
+  const winWidth  = window.innerWidth
+  const winHeight = window.innerHeight
+
+  canvas.setDimensions({
+    width : winWidth,
+    height: winHeight,
+    ratio : 1
+  })
+
+  scene.dx = winWidth / 2
+  scene.dy = winHeight / 2
+})
 
 const polygon = new Polygon(new Vertex(17, 73), new Vertex(293, 130), new Vertex(33, 11))
-const circle  = new Circle(new Vertex(200, 200), 80)
-const square  = new Square(new Vertex(300, 200), 90)
+const square  = new Square(new Vertex(-100, -100), 90)
 
-// scene.add(square)
-scene.add(polygon, circle, square)
+scene.add(polygon, square)
 
 const step = () => {
-  scene.render(white)
+  scene.mesh(white)
 
   // polygon.translate(1, 0)
-  circle.translate(0.5, 0.33)
 
-  polygon.rotate(-1)
-  square.rotate(1, new Vertex(200, 200))
+  polygon.rotate(-0.5, new Vertex(293, 130))
+  square.rotate(1)
 
-  requestAnimationFrame(step)
+  // requestAnimationFrame(step)
 }
 
 step()

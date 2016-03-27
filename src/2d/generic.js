@@ -7,6 +7,10 @@ export default class Generic {
     this.scene.remove(this)
   }
 
+  mesh() {
+    this._missingFunction('mesh')
+  }
+
   render() {
     this._missingFunction('render')
   }

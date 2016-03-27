@@ -1,4 +1,3 @@
-import renderLine from './line'
 import { getPixelRation, applyHiDPICanvas } from './canvas_hdpi'
 
 export default class Canvas {
@@ -19,10 +18,6 @@ export default class Canvas {
     this.width   = canvas.width
     this.height  = canvas.height
     this.ratio   = ratio
-  }
-
-  renderLine(x0, y0, x1, y1, color) {
-    renderLine(this, x0, y0, x1, y1, color)
   }
 
   //////////////////////////
