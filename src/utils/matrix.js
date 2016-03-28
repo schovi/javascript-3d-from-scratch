@@ -1,3 +1,5 @@
+import utils from '../2d/utils'
+
 // Internal storage is array per row
 //
 // Matrix indexing
@@ -25,6 +27,8 @@ export const fromRows = (rows, ...rest) => {
 
 export const create = fromRows
 
+export default fromRows
+
 // Create matrix from given columns
 export const fromColumns = (columns, ...rest) => {
   if(!Array.isArray(columns[0])) {
@@ -35,7 +39,6 @@ export const fromColumns = (columns, ...rest) => {
   const rowsLen = columns[0].length
 
   // TODO validate same column length
-
   return build(rowsLen, colsLen, (row, col) => columns[col][row])
 }
 
@@ -93,13 +96,17 @@ export const build = (rows, cols, filler) => {
     matrix[row] = []
 
     for(let col = 0; col < cols; col++) {
-      matrix[col][col] = filler && filler(row, col)
+      matrix[row][col] = filler && filler(row, col)
     }
+
+    Object.freeze(matrix[row])
   }
 
   matrix.matrix = true
   matrix.rows = rows
   matrix.cols = matrix.columns = cols
+
+  Object.freeze(matrix)
 
   return matrix
 }
@@ -150,9 +157,9 @@ export const add = (m1, m2) => {
 // }
 
 export const addVector = (matrix, vector) => {
-  if(matrix.rows !== vector.length) {
-    throw("Matrix and Vector can be added only when matrix has same number of rows as vector length")
-  }
+  // if(matrix.rows !== vector.size) {
+  //   throw("Matrix and Vector can be added only when matrix has same number of rows as vector size")
+  // }
 
   return map(matrix, (value, i) => value + vector[i])
 }
@@ -171,9 +178,9 @@ export const subtract = (m1, m2) => {
 }
 
 export const subtractVector = (matrix, vector) => {
-  if(matrix.rows !== vector.length) {
-    throw("Matrix and Vector can be subtracted only when matrix has same number of rows as vector length")
-  }
+  // if(matrix.rows !== vector.size) {
+  //   throw("Matrix and Vector can be subtracted only when matrix has same number of rows as vector size")
+  // }
 
   return map(matrix, (value, i) => value - vector[i])
 }
@@ -184,9 +191,9 @@ export const subtractNumber = (matrix, number) => {
 
 // Multiply
 export const multiply = (m1, m2) => {
-  if(m1.cols !== m2.rows) {
-    throw("First matrix has different number of cols than second number of rows")
-  }
+  // if(m1.cols !== m2.rows) {
+  //   throw("First matrix has different number of cols than second number of rows")
+  // }
 
   return build(m1.rows, m2.cols, (row, col) => {
     return sum(m1[row].map((m1Value, i) => m1Value * m2[i][col]))

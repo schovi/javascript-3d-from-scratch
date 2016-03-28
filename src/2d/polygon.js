@@ -1,26 +1,27 @@
 import Generic from './generic'
 import Line    from './line'
 import * as utils from './utils'
-import Vertex from './vertex'
+import Vector from '../utils/vector'
+import * as Matrix from '../utils/matrix'
 
 export default class Polygon extends Generic {
-  constructor(...vertexes) {
+  constructor(...vectors) {
     super()
 
-    this.vertexes = [].concat(...vertexes)
+    this.matrix = Matrix.fromColumns(vectors)
 
-    let xs = 0
-    let ys = 0
-
-    this.vertexes.forEach(({x, y}) => {
-      xs += x
-      ys += y
-    })
-
-    this.center = new Vertex(
-      xs / this.vertexes.length,
-      ys / this.vertexes.length
-    )
+    // let xs = 0
+    // let ys = 0
+    //
+    // this.vectors.forEach(({x, y}) => {
+    //   xs += x
+    //   ys += y
+    // })
+    //
+    // this.center = Vector(
+    //   xs / vectors.size,
+    //   ys / vectors.size
+    // )
   }
 
   get center() {
@@ -36,59 +37,55 @@ export default class Polygon extends Generic {
     this._center = center
   }
 
-  get vertexes() {
-    if(!this._vertexes) {
-      console.error(`Missing vertexes for class ${this.constructor.name}`)
-      return []
+  get matrix() {
+    if(!this._matrix) {
+      console.error(`Missing matrix for class ${this.constructor.name}`)
     }
 
-    return this._vertexes
+    return this._matrix
   }
 
-  set vertexes(...vertexes) {
-    this._vertexes = [].concat(...vertexes)
-  }
-
-  get lines() {
-    const vertexes = this.vertexes
-
-    return vertexes.map((v1, i) => {
-      let v2 = vertexes[i + 1]
-      if(!v2) { v2 = vertexes[0] }
-
-      return new Line(v1, v2)
-    })
+  set matrix(matrix) {
+    this._matrix = matrix
   }
 
   mesh(color) {
-    this.lines.forEach((line) => {
-      line.render(this.scene, color)
+    const vectors = Matrix.columns(this.matrix)
+
+    return vectors.forEach((v1, i) => {
+      let v2 = vectors[i + 1]
+      if(!v2) { v2 = vectors[0] }
+
+      this.scene.renderLine(Matrix.fromColumns(v1, v2), color)
     })
   }
 
-  translate(x, y) {
-    this.vertexes.forEach((vertex) => {
-      vertex.x += x
-      vertex.y += y
-    })
+  translate(vector) {
+    this.matrix = Matrix.addVector(this.matrix, vector)
   }
 
   rotate(degree, center) {
-    center = center || this.center
-
     const rad = utils.toRadians(degree)
 
-    const rotationMatrix = [
-      [Math.cos(rad), Math.sin(rad)],
-      [Math.sin(rad), Math.cos(rad)]
-    ]
+    const sin = Math.sin(rad)
+    const cos = Math.cos(rad)
 
-    this.vertexes.forEach((vertex) => {
-      const x = vertex.x - center.x
-      const y = vertex.y - center.y
+    const rotationMatrix = Matrix.create(
+      [cos, -sin],
+      [sin,  cos]
+    )
 
-      vertex.x = center.x + x * rotationMatrix[0][0] - y * rotationMatrix[0][1]
-      vertex.y = center.y + x * rotationMatrix[1][0] + y * rotationMatrix[1][1]
-    })
+    this.matrix = (
+      Matrix.addVector(
+        Matrix.multiply(
+          rotationMatrix,
+          Matrix.subtractVector(
+            this.matrix,
+            center
+          )
+        ),
+        center
+      )
+    )
   }
 }

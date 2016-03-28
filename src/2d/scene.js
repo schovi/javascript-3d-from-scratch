@@ -1,11 +1,11 @@
 import renderLine from '../render/line'
+import {addVector} from '../utils/matrix'
 
 export default class Scene {
-  constructor(canvas, {dx = 0, dy = 0} = {}) {
+  constructor(canvas, {offset} = {}) {
     this.canvas  = canvas
     this.objects = []
-    this.dx = dx
-    this.dy = dy
+    this.offset = offset
   }
 
   // Add objects to scene
@@ -44,7 +44,14 @@ export default class Scene {
     this.canvas.afterRender && this.canvas.afterRender()
   }
 
-  renderLine(x0, y0, x1, y1, color) {
-    renderLine(this.canvas, x0 + this.dx, y0 + this.dy, x1 + this.dx, y1 + this.dy, color)
+  renderLine(matrix, color) {
+    matrix = addVector(matrix, this.offset)
+
+    renderLine(
+      this.canvas,
+      matrix[0][0], matrix[1][0],
+      matrix[0][1], matrix[1][1],
+      color
+    )
   }
 }
