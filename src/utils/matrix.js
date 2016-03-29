@@ -1,5 +1,3 @@
-import utils from '../2d/utils'
-
 // Internal storage is array per row
 //
 // Matrix indexing

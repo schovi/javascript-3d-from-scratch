@@ -1,6 +1,4 @@
 import Polygon from './polygon'
-import Vertex  from './vertex'
-import Line    from './line'
 import Vector from '../utils/vector'
 import * as Matrix from '../utils/matrix'
 

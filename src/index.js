@@ -8,6 +8,7 @@ import Square  from './2d/square'
 import Polygon from './2d/polygon'
 import Vector  from './utils/vector'
 import {add as addVectors} from './utils/vector'
+
 // App
 const winWidth  = window.innerWidth
 const winHeight = window.innerHeight

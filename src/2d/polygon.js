@@ -1,6 +1,6 @@
 import Generic from './generic'
 import Line    from './line'
-import * as utils from './utils'
+import * as utils from '../utils'
 import Vector from '../utils/vector'
 import * as Matrix from '../utils/matrix'
 
