@@ -88,4 +88,24 @@ export default class Polygon extends Generic {
       )
     )
   }
+
+  scale(size, center) {
+    const scaleMatrix = Matrix.create(
+      [size,    0],
+      [   0, size]
+    )
+
+    this.matrix = (
+      Matrix.addVector(
+        Matrix.multiply(
+          scaleMatrix,
+          Matrix.subtractVector(
+            this.matrix,
+            center
+          )
+        ),
+        center
+      )
+    )
+  }
 }

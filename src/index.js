@@ -58,11 +58,12 @@ const step = () => {
   scene.mesh(white)
 
   polygon.rotate(-0.5, Vector(293, 130))
+  square.scale(1.001, squareCenter)
   square.rotate(1, squareCenter)
   squareCenter = addVectors(squareCenter, squareTranslate)
   square.translate(squareTranslate)
 
-  // requestAnimationFrame(step)
+  requestAnimationFrame(step)
 }
 
 step()
