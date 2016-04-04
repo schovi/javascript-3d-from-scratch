@@ -23,6 +23,10 @@ export default class Generic {
     this._missingFunction('rotate')
   }
 
+  scale() {
+    this._missingFunction('scale')
+  }
+
   _missingFunction(fun) {
     console.error(`Implement '${fun}' on '${this.constructor.name}'`)
   }

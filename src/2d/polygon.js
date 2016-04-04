@@ -1,7 +1,6 @@
-import Generic from './generic'
-import Line    from './line'
-import * as utils from '../utils'
-import Vector from '../utils/vector'
+import Generic     from './generic'
+import * as utils  from '../utils'
+import Vector      from '../utils/vector'
 import * as Matrix from '../utils/matrix'
 
 export default class Polygon extends Generic {
@@ -90,10 +89,7 @@ export default class Polygon extends Generic {
   }
 
   scale(size, center) {
-    const scaleMatrix = Matrix.create(
-      [size,    0],
-      [   0, size]
-    )
+    const scaleMatrix = Matrix.scalar(this.matrix.rows, size)
 
     this.matrix = (
       Matrix.addVector(

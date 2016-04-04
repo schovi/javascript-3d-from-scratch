@@ -1,3 +1,6 @@
+// Sources
+// https://legends2k.github.io/2d-transforms-101/#/
+
 // Internal storage is array per row
 //
 // Matrix indexing
@@ -103,6 +106,7 @@ export const build = (rows, cols, filler) => {
   matrix.matrix = true
   matrix.rows = rows
   matrix.cols = matrix.columns = cols
+  matrix.toString = () => pretty(matrix)
 
   Object.freeze(matrix)
 
@@ -176,9 +180,9 @@ export const subtract = (m1, m2) => {
 }
 
 export const subtractVector = (matrix, vector) => {
-  // if(matrix.rows !== vector.size) {
-  //   throw("Matrix and Vector can be subtracted only when matrix has same number of rows as vector size")
-  // }
+  if(matrix.rows !== vector.size) {
+    throw("Matrix and Vector can be subtracted only when matrix has same number of rows as vector size")
+  }
 
   return map(matrix, (value, i) => value - vector[i])
 }
@@ -189,9 +193,9 @@ export const subtractNumber = (matrix, number) => {
 
 // Multiply
 export const multiply = (m1, m2) => {
-  // if(m1.cols !== m2.rows) {
-  //   throw("First matrix has different number of cols than second number of rows")
-  // }
+  if(m1.cols !== m2.rows) {
+    throw("First matrix has different number of cols than second number of rows")
+  }
 
   return build(m1.rows, m2.cols, (row, col) => {
     return sum(m1[row].map((m1Value, i) => m1Value * m2[i][col]))
@@ -238,6 +242,12 @@ export const map = (matrix, mapper) => {
   return build(matrix.rows, matrix.cols, (i, j) => {
     return mapper(matrix[i][j], i, j)
   })
+}
+
+export const mapColumns = (matrix, mapper) => {
+  return fromColumns(
+    columns(matrix).map(mapper)
+  )
 }
 
 export const pretty = (matrix) => {
